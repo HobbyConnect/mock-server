@@ -63,7 +63,36 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/likeUserResponse"
+                $ref: "#/components/schemas/likeLogicResponse"
+
+  /dislikeUser:
+    post:
+      tags:
+        - hobby-connect
+      summary: postDisLikeUser
+      description: Dislike a User  with UserId
+      operationId: postDisLikeUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/standardRequestBody"
+      parameters:
+        - name: userId
+          in: query
+          required: true
+          description: userId from disliked User
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/likeLogicResponse"
+
 
 
 
@@ -83,9 +112,12 @@ components:
           type: string
           description: must be valid sessionId for User
 
-    likeUserResponse:
+    likeLogicResponse:
       type: object
       properties:
+        userId:
+          type: string
+          description: UserId which liked
         matched:
           type: boolean
           description: true when users got a match, triggers popup in Front-end

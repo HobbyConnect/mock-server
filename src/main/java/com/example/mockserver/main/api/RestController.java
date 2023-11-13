@@ -2,7 +2,7 @@ package com.example.mockserver.main.api;
 
 import com.example.mockserver.main.RequestHandler;
 import com.plant.hobby.connect.api.HobbyConnectApi;
-import com.plant.hobby.connect.model.LikeUserResponse;
+import com.plant.hobby.connect.model.LikeLogicResponse;
 import com.plant.hobby.connect.model.LoginUserBody;
 import com.plant.hobby.connect.model.LoginUserResponse;
 import com.plant.hobby.connect.model.StandardRequestBody;
@@ -21,7 +21,14 @@ public class RestController implements HobbyConnectApi {
     }
 
     @Override
-    public ResponseEntity<LikeUserResponse> postLikeUser(String userID, StandardRequestBody standardRequestBody) {
+    public ResponseEntity<LikeLogicResponse> postDisLikeUser(String userId, StandardRequestBody standardRequestBody) {
+        //valid check session ID:
+        log.info("POST DislikeUser");
+        return requestHandler.postDisLikeUser(userId);
+    }
+
+    @Override
+    public ResponseEntity<LikeLogicResponse> postLikeUser(String userID, StandardRequestBody standardRequestBody) {
         //valid check session ID:
         log.info("POST LikeUser");
         return requestHandler.postLikeUser(userID);

@@ -1,7 +1,7 @@
 package com.example.mockserver.main;
 
 
-import com.plant.hobby.connect.model.LikeUserResponse;
+import com.plant.hobby.connect.model.LikeLogicResponse;
 import com.plant.hobby.connect.model.LoginUserBody;
 import com.plant.hobby.connect.model.LoginUserResponse;
 
@@ -24,8 +24,18 @@ public class RequestHandler {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    public ResponseEntity<LikeUserResponse> postLikeUser(String userId){
-        LikeUserResponse response  = new LikeUserResponse();
+    public ResponseEntity<LikeLogicResponse> postDisLikeUser(String userId){
+        LikeLogicResponse response  = new LikeLogicResponse();
+        response.setUserId(userId);
+        response.setMatched(false);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+
+    public ResponseEntity<LikeLogicResponse> postLikeUser(String userId){
+        LikeLogicResponse response  = new LikeLogicResponse();
+        response.setUserId(userId);
         if(userId.equals("test1")){
             response.setMatched(true);
         }else {
