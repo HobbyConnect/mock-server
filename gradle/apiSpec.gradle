@@ -64,7 +64,7 @@ task generateApi_Code {
             args = [
                     'generate',
                     '-g', 'spring',
-                    '-i', "$projectDir/src/main/api-specification/plant-grow-api.openapi-3.0.yml",
+                    '-i', "$projectDir/src/main/api-specification/hobby-connect.openapi-3.0.yml",
                     '-o', "$projectDir/build/generated-sources/api",
                     '-c', "$projectDir/src/main/api-specification/openapi-config.json",
             ]

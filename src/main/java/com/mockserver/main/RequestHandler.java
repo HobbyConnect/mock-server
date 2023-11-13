@@ -1,11 +1,10 @@
 package com.mockserver.main;
 
 
-import com.plant.hobby.connect.model.LikeLogicResponse;
-import com.plant.hobby.connect.model.LoginUserBody;
-import com.plant.hobby.connect.model.LoginUserResponse;
 
-
+import com.hobby.connect.model.LikeLogicResponse;
+import com.hobby.connect.model.LoginUserBody;
+import com.hobby.connect.model.LoginUserResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
