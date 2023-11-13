@@ -1,0 +1,15 @@
+{
+  "title": "Hobby-Connect-Mock",
+  "dateLibrary": "java8",
+  "groupId": "com.hobby.connect.services",
+  "artifactId": "hobby-connect",
+  "basePackage": "com.plant.hobby.connect",
+  "apiPackage": "com.plant.hobby.connect.api",
+  "modelPackage": "com.plant.hobby.connect.model",
+  "configPackage": "com.plant.hobby.connect.config",
+  "async": false,
+  "useOptional": false,
+  "useBeanValidation": true,
+  "interfaceOnly": true,
+  "library": "spring-cloud"
+}

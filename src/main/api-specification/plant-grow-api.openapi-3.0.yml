@@ -1,0 +1,301 @@
+
+
+openapi: 3.0.0
+
+
+
+
+info:
+  title: Hobby-connect API
+  description: Rest API for Hobby-Connect
+  version: 0.0.1
+  termsOfService: https://hobby-connect.de/
+  contact:
+    name: Ferdinand Strobel
+    email: ferdistr08@gmail.com
+    url: http://ferdi-homelab.casa/
+tags:
+  - name: hobby-connect
+
+paths:
+
+
+
+
+  /statsImage/{name}:
+    get:
+      tags:
+        - publicStats
+      summary: getStatsImageName
+      description: get Stats as SVG or PNG for name
+      operationId: getStatsImageName
+
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+        - name: contentType
+          in: query
+          required: true
+          description: contentType of Image
+          schema:
+            type: string
+            enum:
+              - png
+              - jpg
+              - gif
+      responses:
+        "200":
+          description: Success
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+
+
+
+  /data/{name}:
+    get:
+      tags:
+        - plantGrow
+      summary: getDataName
+      description: get Plant data with Name(ID)
+      operationId: getDataName
+
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/plantDataNameResponse"
+
+  /setData/{name}:
+    get:
+      tags:
+        - plantGrow
+      summary: putDataName
+      description: put plant data for Name(ID)
+      operationId: putDataName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+        - name: mos
+          in: query
+          required: true
+          description: mos (data) from Plant
+          schema:
+            type: string
+      requestBody:
+         content:
+          application/json:
+           schema:
+             $ref: "#/components/schemas/setDataBody"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/setPlantDataNameResponse"
+
+  /getAll:
+    get:
+      tags:
+        - plantGrow
+      summary: getAll
+      description: get all Plant datas
+      operationId: allPlantData
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/allPlantDataResponse"
+
+  /setPump/{name}:
+    put:
+      tags:
+        - plantGrow
+      summary: setPumpName
+      description: set Pump for Name
+      operationId: setPumpName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+        - name: pump
+          in: query
+          required: true
+          description: giv pumpState
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/putPumpNameResponse"
+
+  /pump/{name}:
+    get:
+      tags:
+        - plantGrow
+      summary: getPumpName
+      description:  get Pump Status for Name
+      operationId: getPumpName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/pumpNameResponse"
+
+  /deletePlant/{name}:
+    delete:
+      tags:
+        - plantGrow
+      summary:  deletePlantName
+      description: Delete a Plant by Name
+      operationId: deletePlantName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Plant name (ID)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteNameResponse"
+
+
+
+components:
+  schemas:
+
+    plantDataNameResponse:
+      type: object
+      properties:
+        status:
+          description: status if Plant is available
+          type: boolean
+        plant:
+          description: Requested Plant Object
+          $ref: "#/components/schemas/plant"
+
+    setPlantDataNameResponse:
+      type: object
+      properties:
+        newPlant:
+          description: true if first request
+          type: boolean
+
+    allPlantDataResponse:
+      type: object
+      properties:
+        allPlant:
+          type: array
+          description: all Plants
+          items:
+            $ref: "#/components/schemas/plantAll"
+
+    pumpNameResponse:
+      type: object
+      properties:
+        pump:
+          description: 0 if pump is deactivated and 1 if pump is activated
+          type: integer
+
+    putPumpNameResponse:
+      type: object
+      properties:
+        status:
+          description: status if Plant is available
+          type: boolean
+        pump:
+          description: pump state (0 or 1)
+          type: integer
+
+    deleteNameResponse:
+      type: object
+      properties:
+        operation:
+          description: if operation work
+          type: boolean
+
+
+    plantAll:
+      type: object
+      properties:
+        status:
+          type: boolean
+          description: status of Plant
+        plant:
+          $ref: "#/components/schemas/plant"
+
+    setDataBody:
+      type: object
+      properties:
+        pb:
+          type: string
+          description: base64 String for profile-picture
+
+    plant:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id from database
+        name:
+          type: string
+          description: Plant Name
+        mos:
+          type: string
+          description: MOS (Moisture) of Plant
+        pump:
+          type: integer
+          description: Pump state, can be 1 or 0 for pump activation or deactivation
+        last:
+          type: string
+          description: String indicating when the pump was last activated
+        avg:
+          type: string
+          description: Average MOS of the plant
+        pb:
+          type: string
+          description: profile picture as base64 string
+      x-jpa-entity: true
+      x-jpa-table-name: plants
