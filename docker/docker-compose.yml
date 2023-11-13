@@ -1,0 +1,11 @@
+version: '3'
+services:
+  spring:
+    image: hobby-connect-mock-server
+    restart: always
+    ports:
+      - "7565:7565"
+
+
+
+

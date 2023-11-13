@@ -1,6 +1,6 @@
-package com.example.mockserver.main.api;
+package com.mockserver.main.api;
 
-import com.example.mockserver.main.RequestHandler;
+import com.mockserver.main.RequestHandler;
 import com.plant.hobby.connect.api.HobbyConnectApi;
 import com.plant.hobby.connect.model.LikeLogicResponse;
 import com.plant.hobby.connect.model.LoginUserBody;

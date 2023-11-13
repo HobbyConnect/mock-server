@@ -1,4 +1,4 @@
-package com.example.mockserver.main;
+package com.mockserver.main;
 
 
 import com.plant.hobby.connect.model.LikeLogicResponse;

@@ -1,4 +1,4 @@
-package com.example.mockserver;
+package com.mockserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
