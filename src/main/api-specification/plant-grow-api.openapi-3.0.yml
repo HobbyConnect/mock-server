@@ -1,9 +1,4 @@
-
-
 openapi: 3.0.0
-
-
-
 
 info:
   title: Hobby-connect API
@@ -19,156 +14,47 @@ tags:
 
 paths:
 
-
-
-
-  /statsImage/{name}:
-    get:
+  /loginUser:
+    post:
       tags:
-        - publicStats
-      summary: getStatsImageName
-      description: get Stats as SVG or PNG for name
-      operationId: getStatsImageName
-
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
-          schema:
-            type: string
-        - name: contentType
-          in: query
-          required: true
-          description: contentType of Image
-          schema:
-            type: string
-            enum:
-              - png
-              - jpg
-              - gif
-      responses:
-        "200":
-          description: Success
-          content:
-            image/*:
-              schema:
-                type: string
-                format: binary
-
-
-
-  /data/{name}:
-    get:
-      tags:
-        - plantGrow
-      summary: getDataName
-      description: get Plant data with Name(ID)
-      operationId: getDataName
-
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/plantDataNameResponse"
-
-  /setData/{name}:
-    get:
-      tags:
-        - plantGrow
-      summary: putDataName
-      description: put plant data for Name(ID)
-      operationId: putDataName
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
-          schema:
-            type: string
-        - name: mos
-          in: query
-          required: true
-          description: mos (data) from Plant
-          schema:
-            type: string
+        - hobby-connect
+      summary: postLoginUser
+      description: login user with email and password
+      operationId: postLoginUser
       requestBody:
-         content:
+        required: true
+        content:
           application/json:
-           schema:
-             $ref: "#/components/schemas/setDataBody"
+            schema:
+              $ref: "#/components/schemas/loginUserBody"
       responses:
         "200":
           description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/setPlantDataNameResponse"
+                $ref: "#/components/schemas/loginUserResponse"
+        "401":
+          description: Unauthorized
 
-  /getAll:
-    get:
+  /likeUser:
+    post:
       tags:
-        - plantGrow
-      summary: getAll
-      description: get all Plant datas
-      operationId: allPlantData
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/allPlantDataResponse"
-
-  /setPump/{name}:
-    put:
-      tags:
-        - plantGrow
-      summary: setPumpName
-      description: set Pump for Name
-      operationId: setPumpName
+        - hobby-connect
+      summary: postLikeUser
+      description: Like a User  with UserId
+      operationId: postLikeUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/standardRequestBody"
       parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
-          schema:
-            type: string
-        - name: pump
+        - name: userId
           in: query
           required: true
-          description: giv pumpState
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/putPumpNameResponse"
-
-  /pump/{name}:
-    get:
-      tags:
-        - plantGrow
-      summary: getPumpName
-      description:  get Pump Status for Name
-      operationId: getPumpName
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
+          description: userId from liked User
           schema:
             type: string
       responses:
@@ -177,125 +63,57 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/pumpNameResponse"
+                $ref: "#/components/schemas/likeUserResponse"
 
-  /deletePlant/{name}:
-    delete:
-      tags:
-        - plantGrow
-      summary:  deletePlantName
-      description: Delete a Plant by Name
-      operationId: deletePlantName
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Plant name (ID)
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/deleteNameResponse"
 
+
+
+
+
+#get token als post und dann get session als post
 
 
 components:
   schemas:
 
-    plantDataNameResponse:
+    standardRequestBody:
       type: object
       properties:
-        status:
-          description: status if Plant is available
+        sessionId:
+          type: string
+          description: must be valid sessionId for User
+
+    likeUserResponse:
+      type: object
+      properties:
+        matched:
           type: boolean
-        plant:
-          description: Requested Plant Object
-          $ref: "#/components/schemas/plant"
+          description: true when users got a match, triggers popup in Front-end
 
-    setPlantDataNameResponse:
+    loginUserBody:
       type: object
       properties:
-        newPlant:
-          description: true if first request
-          type: boolean
+        email:
+          type: string
+          description: Users Email
+        password:
+          type: string
+          description: Users Password
 
-    allPlantDataResponse:
+
+    loginUserResponse:
       type: object
       properties:
-        allPlant:
-          type: array
-          description: all Plants
-          items:
-            $ref: "#/components/schemas/plantAll"
-
-    pumpNameResponse:
-      type: object
-      properties:
-        pump:
-          description: 0 if pump is deactivated and 1 if pump is activated
+        sessionId:
+          type: string
+          description: User session-ID
+        refreshToken:
+          type: string
+          description: User refresh-token
+        ttl:
           type: integer
-
-    putPumpNameResponse:
-      type: object
-      properties:
-        status:
-          description: status if Plant is available
-          type: boolean
-        pump:
-          description: pump state (0 or 1)
-          type: integer
-
-    deleteNameResponse:
-      type: object
-      properties:
-        operation:
-          description: if operation work
-          type: boolean
+          description: time to life
 
 
-    plantAll:
-      type: object
-      properties:
-        status:
-          type: boolean
-          description: status of Plant
-        plant:
-          $ref: "#/components/schemas/plant"
 
-    setDataBody:
-      type: object
-      properties:
-        pb:
-          type: string
-          description: base64 String for profile-picture
 
-    plant:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: id from database
-        name:
-          type: string
-          description: Plant Name
-        mos:
-          type: string
-          description: MOS (Moisture) of Plant
-        pump:
-          type: integer
-          description: Pump state, can be 1 or 0 for pump activation or deactivation
-        last:
-          type: string
-          description: String indicating when the pump was last activated
-        avg:
-          type: string
-          description: Average MOS of the plant
-        pb:
-          type: string
-          description: profile picture as base64 string
-      x-jpa-entity: true
-      x-jpa-table-name: plants
