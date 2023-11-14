@@ -1,15 +1,11 @@
 package com.mockserver.main;
 
-
-
 import com.hobby.connect.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -97,6 +93,27 @@ public class RequestHandler {
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    public ResponseEntity<ProfilePage> getProfilePage(){
+        ProfilePage response =  new ProfilePage() ;
+        response.type("user");
+        response.setId("asdjfoiasjdfuaw39fj8hjf");
+        response.setName("Oskar");
+        response.setSurname("Herrmann");
+        response.setAge(19);
+        response.setLocation("Wuerzburg");
+        response.setAccountCreation("01.11.2023");
+        response.setDescription("Ich bin der Oskar");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    public ResponseEntity<UpdateProfilePageResponse> putUpdateProfilePage(){
+        UpdateProfilePageResponse response  = new UpdateProfilePageResponse();
+        response.setId("asdjfoiasjdfuaw39fj8hjf");
+        response.setCompleted(true);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
 
 }
