@@ -13,6 +13,60 @@ tags:
   - name: hobby-connect
 
 paths:
+  /profilePage:
+    get:
+      tags:
+        - hobby-connect
+      summary: getProfilePage
+      description: Get own Porfile page with settings
+      operationId: getProfilePage
+      parameters:
+        - name: sessionID
+          in: header
+          required: true
+          description: must be valid sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/profilePage"
+
+  /updateProfilePage:
+    put:
+      tags:
+        - hobby-connect
+      summary: putUpateProfilePage
+      description: upte user data with settings
+      operationId: putUpdateProfilePage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/profilePage"
+      parameters:
+        - name: sessionID
+          in: header
+          required: true
+          description: must be valid sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/updateProfilePageResponse"
+
+
+
   /nextUsers:
     get:
       tags:
@@ -66,17 +120,18 @@ paths:
       summary: postLikeUser
       description: Like a User  with UserId
       operationId: postLikeUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/standardRequestBody"
       parameters:
         - name: userId
           in: query
           required: true
           description: userId from liked User
+          schema:
+            type: string
+        - name: sessionID
+          in: header
+          required: true
+          description: must be valid sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
           schema:
             type: string
       responses:
@@ -94,17 +149,18 @@ paths:
       summary: postDisLikeUser
       description: Dislike a User  with UserId
       operationId: postDisLikeUser
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/standardRequestBody"
       parameters:
         - name: userId
           in: query
           required: true
           description: userId from disliked User
+          schema:
+            type: string
+        - name: sessionID
+          in: header
+          required: true
+          description: must be valid sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
           schema:
             type: string
       responses:
@@ -115,15 +171,58 @@ paths:
               schema:
                   $ref: "#/components/schemas/likeLogicResponse"
 
+
+
 components:
   schemas:
 
-    standardRequestBody:
+    updateProfilePageResponse:
       type: object
       properties:
-        sessionId:
+        id:
           type: string
-          description: must be valid sessionId for User
+          description: userId
+          example: asdjfoiasjdfuaw39fj8hjf
+        completed:
+          type: boolean
+          description: commpled operation
+          example: true
+
+    profilePage:
+      type: object
+      properties:
+        type:
+          type: string
+          description: user type
+          example: type
+        id:
+          type: string
+          description: user id
+          example: asdjfoiasjdfuaw39fj8hjf
+        name:
+          type: string
+          description: user name
+          example: Oskar
+        surname:
+          type: string
+          description: surname of user
+          example: Herrmann
+        age:
+          type: integer
+          description: age of user
+          example: 19
+        location:
+          type: string
+          description: location of userr
+          example: wuerzburg
+        accountCreation:
+          type: string
+          description: date of account creation in 00.00.0000 format
+          example: 01.01.2023
+        description:
+          type: string
+          description: profile description
+
 
     nextUsersResponse:
       type: object
@@ -141,7 +240,7 @@ components:
         type:
           type: string
           description: user type
-          example: type
+          example: user
         id:
           type: string
           description: userId
