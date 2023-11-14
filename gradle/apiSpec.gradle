@@ -43,7 +43,7 @@ dependencies {
     implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.29'
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.0'
 
-    api group: 'org.openapitools', name: 'openapi-generator-cli', version: '4.1.1'
+    api group: 'org.openapitools', name: 'openapi-generator-cli', version: '6.6.0'
 
 
 }

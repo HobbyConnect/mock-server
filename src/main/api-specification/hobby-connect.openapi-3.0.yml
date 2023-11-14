@@ -13,6 +13,28 @@ tags:
   - name: hobby-connect
 
 paths:
+  /nextUsers:
+    get:
+      tags:
+        - hobby-connect
+      summary: getNextUsers
+      description: get List of next 5 Users
+      operationId: getNextUsers
+      parameters:
+        - name: sessionID
+          in: header
+          required: true
+          description:  must be valid sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/nextUsersResponse"
 
   /loginUser:
     post:
@@ -91,16 +113,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/likeLogicResponse"
-
-
-
-
-
-
-
-#get token als post und dann get session als post
-
+                  $ref: "#/components/schemas/likeLogicResponse"
 
 components:
   schemas:
@@ -111,6 +124,160 @@ components:
         sessionId:
           type: string
           description: must be valid sessionId for User
+
+    nextUsersResponse:
+      type: object
+      properties:
+        nextUsers:
+          type: array
+          description: list of next five Users
+          items:
+            $ref: "#/components/schemas/nextUser"
+
+    nextUser:
+      type: object
+      description: User Object (not own User)
+      properties:
+        type:
+          type: string
+          description: user type
+          example: type
+        id:
+          type: string
+          description: userId
+          example: asdjfoiasjdfuaw39fj8hjf
+        name:
+          type: string
+          description: User name
+          example: oskar
+        age:
+          type: integer
+          description: User age
+          example: 19
+        location:
+          type: string
+          description: location  of User
+          example: Wuerzburg
+        description:
+          type: string
+          description: self description of user
+          example: Ich bin der Oskar und suche leute fuer ein cooles Hobby
+        content:
+          type: array
+          description: content of User
+          items:
+            $ref: "#/components/schemas/content"
+
+    content:
+      type: object
+      description: All content of one hobby with all widgets and posts
+      properties:
+        type:
+          type: string
+          description: Hobby type
+          example: hobby
+        id:
+          type: string
+          description: hobby id
+          example: 2uf9jawedo9fj83wo4jtoqje
+        name:
+          type: string
+          description: name of Hobby
+          example: Joggen
+        description:
+          type: string
+          description: description of the hobby
+          example: Joggen ist eine Sportart bei der es darum geht moeglichst lange zu laufen
+        img:
+          type: string
+          description: link to cdn with Hobby-Icon
+        widgetData:
+          type: array
+          description: all Widgets which listed on a hobby
+          items:
+            $ref: "#/components/schemas/widget"
+        posts:
+          type: array
+          description: first 2 posts of the hobby pots
+          items:
+            $ref: "#/components/schemas/post"
+
+
+    widget:
+      discriminator:
+        propertyName: type
+      description: Widget which can only seen in closed view
+      properties:
+        type:
+          type: string
+          description: widget type
+
+
+    locationWidget:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/widget"
+      description: Shows where and when (time) the hobby will be executed
+      properties:
+        location:
+          type: string
+          description: location where hobby is
+          example: Hoechberg Waldsportplatz
+        time:
+          type: string
+          description: time when hobby is in format 00:00
+          example: 17:00
+
+    calendarWidget:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/widget"
+      description: Shows when in the Week the hobby will be executed
+      properties:
+        calendarWidgetDays:
+          $ref: "#/components/schemas/calendarWidgetDays"
+
+    calendarWidgetDays:
+      type: object
+      properties:
+        monday:
+          type: boolean
+        tuesday:
+          type: boolean
+        wednesday:
+          type: boolean
+        thursday:
+          type: boolean
+        friday:
+          type: boolean
+        saturday:
+          type: boolean
+        sunday:
+          type: boolean
+
+    post:
+      type: object
+      description: Post which can only seen in opened view
+      properties:
+        type:
+          type: string
+          description: post type
+          example: post
+        id:
+          type: string
+          description: post id
+          example: 28uef9uq34t
+        name:
+          type: string
+          description: Name of post (title)
+          example: Wiedermal unterwegs
+        description:
+          type: string
+          description: description of post
+          example: Ich war letzten Sonnatg joggen und habe diesen Fuchs gesehen "#joggen"
+        img:
+          type: string
+          description: url ot cdn of post
 
     likeLogicResponse:
       type: object

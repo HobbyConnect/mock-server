@@ -1,10 +1,7 @@
 package com.mockserver.main.api;
 
 import com.hobby.connect.api.HobbyConnectApi;
-import com.hobby.connect.model.LikeLogicResponse;
-import com.hobby.connect.model.LoginUserBody;
-import com.hobby.connect.model.LoginUserResponse;
-import com.hobby.connect.model.StandardRequestBody;
+import com.hobby.connect.model.*;
 import com.mockserver.main.RequestHandler;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +16,13 @@ public class RestController implements HobbyConnectApi {
 
     public RestController(RequestHandler requestHandler){
         this.requestHandler  =  requestHandler;
+    }
+
+    @Override
+    public ResponseEntity<NextUsersResponse> getNextUsers(String sessionID) {
+        //valid check session ID etc.
+        log.info("GET NextUsers");
+        return requestHandler.getNextUsers();
     }
 
     @Override
