@@ -13,6 +13,28 @@ tags:
   - name: hobby-connect
 
 paths:
+  /logoutUser:
+    get:
+      tags:
+        - hobby-connect
+      summary: getLogoutUser
+      description: Log of User and Return to the Home-screen, session will be deleted
+      parameters:
+        - name: sessionID
+          in:  header
+          required: true
+          description: must be vaild sessionId for User to log him out
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/logoutUserResponse"
+
   /profilePage:
     get:
       tags:
@@ -175,6 +197,18 @@ paths:
 
 components:
   schemas:
+
+    logoutUserResponse:
+      type: object
+      properties:
+        sessionID:
+          type: string
+          description: sessionID which is destroyed
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+        completed:
+          type: boolean
+          description: completed operation
+          example: true
 
     updateProfilePageResponse:
       type: object
