@@ -12,6 +12,8 @@ import java.util.UUID;
 @Slf4j
 public class RequestHandler {
 
+    private final static String SESSION_ID =  "sess_84266fdbd31d4c2c6d0665f7e8380fa3";
+
     public ResponseEntity<NextUsersResponse> getNextUsers() {
         NextUsersResponse response = new NextUsersResponse();
 
@@ -70,10 +72,18 @@ public class RequestHandler {
         LoginUserResponse response  = new LoginUserResponse() ;
         response.setTtl(4000);
         response.setRefreshToken("RjY2NjM5NzA2OWJjuE7c");
-        response.setSessionId("sess_84266fdbd31d4c2c6d0665f7e8380fa3");
+        response.setSessionId(SESSION_ID);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+
+    public ResponseEntity<LogoutUserResponse> logoutUser(String SessionID){
+        LogoutUserResponse response  =  new LogoutUserResponse();
+        response.setCompleted(true);
+        response.setSessionID(SessionID);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
     public ResponseEntity<LikeLogicResponse> postDisLikeUser(String userId){
         LikeLogicResponse response  = new LikeLogicResponse();
         response.setUserId(userId);

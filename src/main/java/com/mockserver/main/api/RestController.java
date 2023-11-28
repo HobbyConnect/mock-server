@@ -34,6 +34,11 @@ public class RestController implements HobbyConnectApi {
     }
 
     @Override
+    public ResponseEntity<LogoutUserResponse> logoutUserGet(String sessionID) {
+        return requestHandler.logoutUser(sessionID);
+    }
+
+    @Override
     @CrossOrigin()
     public ResponseEntity<LikeLogicResponse> postDisLikeUser(String userId, String sessionId) {
         //valid check session ID:
