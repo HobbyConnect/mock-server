@@ -14,6 +14,25 @@ public class RequestHandler {
 
     private final static String SESSION_ID =  "sess_84266fdbd31d4c2c6d0665f7e8380fa3";
 
+
+    public ResponseEntity<NewsResponse> getNews(){
+
+        NewsResponse  response =  new NewsResponse();
+        for(int  i = 0 ; i != 5; i ++){
+            News news  =  new News() ;
+            news.setId(UUID.randomUUID().toString());
+            news.setPublished(i+"0 min");
+            news.setText(i +" - Hobby ist jetzt verfuegbar!!! Los und probiere es aus");
+            news.setUserName("Hobby-Connect-Team");
+            news.setUserPic("https://img.fotocommunity.com/profilbild-deabb511-62e9-4582-bd2c-0a11ac10ef4b.jpg?height=1000");
+            news.setPic("https://www.bd-palavas.fr/wp-content/uploads/2019/09/sport-duree.jpeg");
+            response.addNewsItem(news);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+
     public ResponseEntity<NextUsersResponse> getNextUsers() {
         NextUsersResponse response = new NextUsersResponse();
 

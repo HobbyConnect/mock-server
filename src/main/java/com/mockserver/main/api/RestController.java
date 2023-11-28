@@ -34,8 +34,13 @@ public class RestController implements HobbyConnectApi {
     }
 
     @Override
-    public ResponseEntity<LogoutUserResponse> logoutUserGet(String sessionID) {
+    public ResponseEntity<LogoutUserResponse> getLogoutUser(String sessionID) {
         return requestHandler.logoutUser(sessionID);
+    }
+
+    @Override
+    public ResponseEntity<NewsResponse> getNews(String sessionID) {
+        return null;
     }
 
     @Override

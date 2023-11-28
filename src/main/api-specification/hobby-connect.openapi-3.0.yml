@@ -13,12 +13,37 @@ tags:
   - name: hobby-connect
 
 paths:
+  /getNews:
+    get:
+     tags:
+        - hobby-connect
+     summary: getNews
+     description: get 5 News for mobie newsFeed
+     operationId: getNews
+     parameters:
+        - name: sessionID
+          in: header
+          required: true
+          description: must be vaild sessionId for User
+          example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
+          schema:
+           type: string
+     responses:
+      "200":
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newsResponse"
+
+
   /logoutUser:
     get:
       tags:
         - hobby-connect
       summary: getLogoutUser
       description: Log of User and Return to the Home-screen, session will be deleted
+      operationId: getLogoutUser
       parameters:
         - name: sessionID
           in:  header
@@ -197,6 +222,45 @@ paths:
 
 components:
   schemas:
+
+    newsResponse:
+      type: object
+      properties:
+        news:
+          type: array
+          description: list of next fives news for the mobile news Feed
+          items:
+            $ref: "#/components/schemas/news"
+
+    news:
+      type: object
+      properties:
+        id:
+          type: string
+          description: UUID of the news
+          example: 00011uejklr
+        published:
+          type: string
+          description: time when the news was released
+          example: 20 min
+        text:
+          type: string
+          description: Text which descipes news
+          example: A New Hobby has been added! Cricket is now available
+        pic:
+          type: string
+          description: URL to picture
+        userName:
+          type: string
+          description: userName of team which releasted news, for future every user can publish news
+          example: hobby-connect-Team
+        userPic:
+          type: string
+          description: link to user-Profile-Pic (team pic),
+
+
+
+
 
     logoutUserResponse:
       type: object
