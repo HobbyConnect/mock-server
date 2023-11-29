@@ -41,6 +41,7 @@ public class RestController implements HobbyConnectApi {
     }
 
     @Override
+    @CrossOrigin
     public ResponseEntity<NewsResponse> getNews(String sessionID, Integer pageNr) {
         log.info("GET News | Page: " + pageNr);
         return requestHandler.news(pageNr);
