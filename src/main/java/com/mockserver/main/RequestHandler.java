@@ -15,10 +15,25 @@ public class RequestHandler {
     private final static String SESSION_ID =  "sess_84266fdbd31d4c2c6d0665f7e8380fa3";
 
 
-    public ResponseEntity<NewsResponse> getNews(){
+    public ResponseEntity<NewsResponse>  news(Integer pageNr){
 
         NewsResponse  response =  new NewsResponse();
-        for(int  i = 0 ; i != 5; i ++){
+        int start;
+        int stop;
+        if(pageNr == 0 ){
+            start = 0;
+            stop  = 5;
+        }else if(pageNr == 1){
+            start = 5;
+            stop = 10;
+        }else {
+            News news =  new News() ;
+            news.setId("NULL");
+            response.addNewsItem(news);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        for(int  i = start ; i != stop; i ++){
             News news  =  new News() ;
             news.setId(UUID.randomUUID().toString());
             news.setPublished(i+"0 min");

@@ -13,7 +13,7 @@ tags:
   - name: hobby-connect
 
 paths:
-  /getNews:
+  /news:
     get:
      tags:
         - hobby-connect
@@ -28,6 +28,12 @@ paths:
           example: sess_84266fdbd31d4c2c6d0665f7e8380fa3
           schema:
            type: string
+        - name: pageNr
+          in: query
+          required: false
+          description: pageNr which news page (1 page == 5 news )shout be requested. Default is page 0 (newest)
+          schema:
+            type: integer
      responses:
       "200":
         description: Success
